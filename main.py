@@ -25,13 +25,6 @@ def mostrarMenu():
     opcion = int(input())
     return opcion
 
-def my_function(obj_id, storage):
-    print(obj_id)
-
-    data = storage.get_cloudobject(obj_id)
-
-    return data.decode()
-
 
 print('Practica 2 SD\n')
 print('Tractament de les dades pressupostaries de l\'ajuntament de Reus')
