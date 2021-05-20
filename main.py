@@ -18,44 +18,81 @@ def mostrarMenu():
     print("Quina opcio vols fer?")
     print("Opcion 0: Sortir")
     print("Opcion 1: Llistar documents bucket")
-    print("Opcion 2: Afegir un document csv al bucket")
-    print("Opcion 3: Eliminar document csv al bucket")
-    print("Opcion 4: Afegir una nova dada a un document csv")
-    print("Opcion 5: Realitzar una consulta document")
+    print("Opcion 2: Crear un document al bucket en blanc")
+    print("Opcion 3: Penjar un document al bucket")
+    print("Opcion 4: Eliminar document csv al bucket")
+    print("Opcion 5: Afegir una nova dada a un document csv")
+    print("Opcion 6: Realitzar una consulta document")
     opcion = int(input())
     return opcion
 
+def llistarArxiusBucket():
+    print("\nLlista de fitxers guardats al bucket: ")
+    print(storage.list_keys(BUCKET))
+    print("\n")
 
-print('Practica 2 SD\n')
-print('Tractament de les dades pressupostaries de l\'ajuntament de Reus')
-print('Les dades pressupostaries de cada any es guarden en un fitxer csv\n')
+def inicialitzar():
+    print('\n\nPractica 2 SD\n')
+    print('Tractament de les dades pressupostaries de l\'ajuntament de Reus')
+    print('Les dades pressupostaries de cada any es guarden en un fitxer csv\n')
 
-storage = Storage(config=config)
-
-opcion = mostrarMenu()
-while(opcion != 0):
-    if opcion == 1: 
-        print("Llista de fitxers guardats: ")
-        print(storage.list_keys(BUCKET))
     
-    if opcion == 2: 
-        print("Quin document vols afegir? ")
-        fitxer = input()
-
-        f = open(fitxer, 'rb')
-        obj_id = storage.put_cloudobject(io.BytesIO(f.read()), BUCKET, fitxer)
-
-    if opcion == 3: 
-        print("Quin document vols eliminar? ")
-        fitxer = input()
-        storage.delete_object('2020sd', fitxer)
-
-    if opcion == 4: 
-        print("De quin any vols introduir noves dades? ")
-        any = int(input())
-
-    if opcion == 5: 
-        print("De quin any vols consultar les dades? ")
-        any = int(input())
-    
+if __name__ == '__main__':
+    inicialitzar()
+    storage = Storage(config=config)
     opcion = mostrarMenu()
+    while(opcion != 0):
+        if opcion == 1: 
+            llistarArxiusBucket()
+        
+        if opcion == 2: 
+            print("\nQuin nom vols que tingui el document nou al bucket? ")
+            fitxer = input()
+            obj_id = storage.put_cloudobject('', BUCKET, fitxer)
+        
+        if opcion == 3: 
+            print("\nQuin document vols penjar? ")
+            fitxer = input()
+
+            f = open(fitxer, 'rb')
+            obj_id = storage.put_cloudobject(io.BytesIO(f.read()), BUCKET, fitxer)
+
+        if opcion == 4: 
+            llistarArxiusBucket()
+            print("\nQuin document vols eliminar? ")
+            fitxer = input()
+            storage.delete_object(BUCKET, fitxer)
+
+        if opcion == 5: 
+            llistarArxiusBucket()
+            print("\nA quin fitxer vols introduir noves dades? ")
+            fitxer = input()
+
+            print("Introudeix l\'id:")
+            info = input()
+            print("Introudeix l\'any:")
+            infor = info + ", " + input()
+            print("Introudeix organica:")
+            infor = info + ", " + input()
+            print("Introudeix el programa:")
+            infor = info + ", " + input()
+            print("Introudeix economica:")
+            infor = info + ", " + input()
+            print("Introudeix descripcio de la partida:")
+            infor = info + ", " + input()
+            print("Introudeix els credits inicials:")
+            infor = info + ", " + input()
+            print("Introudeix la modificacio de credits:")
+            infor = info + ", " + input()
+            print("Introudeix els credits totals consignats:")
+            infor = info + ", " + input()
+            print("Introudeix les disposicions o compromisos")
+            infor = info + ", " + input()
+            print("Introudeix les obligacions:")
+            infor = info + ", " + input()
+
+        if opcion == 6: 
+            print("\nDe quin any vols consultar les dades? ")
+            any = int(input())
+        
+        opcion = mostrarMenu()
