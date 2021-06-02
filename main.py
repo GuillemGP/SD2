@@ -3,6 +3,9 @@ from lithops import Storage
 
 import io
 
+import requests
+import json
+
 BUCKET = '2020sd'
 
 #IBM Cloud
@@ -73,37 +76,41 @@ if __name__ == '__main__':
             print("Introudeix l\'id:")
             info = input()
             print("Introudeix l\'any:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix organica:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix el programa:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix economica:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix descripcio de la partida:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix els credits inicials:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix la modificacio de credits:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix els credits totals consignats:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix les disposicions o compromisos")
-            infor = info + ", " + input()
+            info = info + ", " + input()
             print("Introudeix les obligacions:")
-            infor = info + ", " + input()
+            info = info + ", " + input()
+
+            contingut=storage.get_object(bucket=BUCKET, key=fitxer)
+            contingut=contingut.decode()
+
+            contingut = contingut + "\n" + info
+
+            obj_id = storage.put_cloudobject(contingut, BUCKET, fitxer)
 
         if opcion == 6: 
             print("\nDe quin any vols consultar les dades? ")
             any = int(input())
 
         if opcion == 7: 
-            import requests
-            import json
             response = json.loads(requests.get("https://eu-gb.functions.appdomain.cloud/api/v1/web/guillem.gorgori%40estudiants.urv.cat_dev/SD/hello.json").text)
             print("\n")
             print(response)
             print("\n")
-
         
         opcion = mostrarMenu()
