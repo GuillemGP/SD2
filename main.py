@@ -5,6 +5,7 @@ import io
 
 BUCKET = '2020sd'
 
+#IBM Cloud
 config = {'lithops' : {'storage_bucket' : BUCKET},
 
           'ibm_cf':  {'endpoint': 'https://s3.eu-de.cloud-object-storage.appdomain.cloud',
@@ -23,6 +24,7 @@ def mostrarMenu():
     print("Opcion 4: Eliminar document csv al bucket")
     print("Opcion 5: Afegir una nova dada a un document csv")
     print("Opcion 6: Realitzar una consulta document")
+    print("Opcion 7: Invocar funcion IBM cloud")
     opcion = int(input())
     return opcion
 
@@ -94,5 +96,14 @@ if __name__ == '__main__':
         if opcion == 6: 
             print("\nDe quin any vols consultar les dades? ")
             any = int(input())
+
+        if opcion == 7: 
+            import requests
+            import json
+            response = json.loads(requests.get("https://eu-gb.functions.appdomain.cloud/api/v1/web/guillem.gorgori%40estudiants.urv.cat_dev/SD/hello.json").text)
+            print("\n")
+            print(response)
+            print("\n")
+
         
         opcion = mostrarMenu()
