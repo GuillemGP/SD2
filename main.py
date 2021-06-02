@@ -1,6 +1,7 @@
 from lithops import FunctionExecutor
 from lithops import Storage
-
+import matplotlib.pyplot as plt
+import pandas as pd
 import io
 
 import requests
@@ -28,6 +29,7 @@ def mostrarMenu():
     print("Opcion 5: Afegir una nova dada a un document csv")
     print("Opcion 6: Realitzar una consulta document")
     print("Opcion 7: Invocar funcion IBM cloud")
+    print("Opcion 8: Generar gráfico")
     opcion = int(input())
     return opcion
 
@@ -41,6 +43,27 @@ def inicialitzar():
     print('Tractament de les dades pressupostaries de l\'ajuntament de Reus')
     print('Les dades pressupostaries de cada any es guarden en un fitxer csv\n')
 
+def getCsvData(values):
+    valorAConsultar= values["valorAConsultar"] #valor que volem analitzar graficament
+    columnaACercar = values["columnaACercar"]   #columna de la que volem buscar el id
+    idCerca = values["idCerca"]  #valor del csv del que volem extreure dades
+    files = "./PressupostDespesesAjReus"
+    index = 2019
+    anys = []
+    consultes = []
+    for i in range (3):
+        filePath = files + str(index) + ".csv"
+        df = pd.read_csv(filePath)
+        consulta = df[df[columnaACercar] ==  idCerca][valorAConsultar].iloc[0]
+        print(consulta)
+        consultes.append(consulta)
+        anys.append(index)
+        index+=1
+    result = {
+        "anys": anys,
+        "consultes": consultes
+    }
+    return result
     
 if __name__ == '__main__':
     inicialitzar()
@@ -112,5 +135,16 @@ if __name__ == '__main__':
             print("\n")
             print(response)
             print("\n")
-        
+        if opcion == 8:
+            values = { 
+                "valorAConsultar": "PAGAMENTS REALITZATS", #valor que volem analitzar graficament
+                "columnaACercar": "DESCRIPCIÓ PARTIDA" , #columna de la que volem buscar el id
+                "idCerca": "Alcaldia-Òrgans de govern-Dietes organs govern" #valor del csv del que volem extreure dades
+            }
+            r = getCsvData(values)
+            plt.figure()
+            plt.plot(r["anys"], r["consultes"])
+            plt.xlabel(values["valorAConsultar"], fontsize=18)
+            plt.ylabel('Anys', fontsize=16)
+            plt.savefig("./images/DespesesReus.png")
         opcion = mostrarMenu()
