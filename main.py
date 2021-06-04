@@ -3,7 +3,8 @@ from lithops import Storage
 import matplotlib.pyplot as plt
 import pandas as pd
 import io
-
+import requests
+from requests.auth import HTTPBasicAuth
 import requests
 import json
 
@@ -29,7 +30,8 @@ def mostrarMenu():
     print("Opcion 5: Afegir una nova dada a un document csv")
     print("Opcion 6: Realitzar una consulta document")
     print("Opcion 7: Invocar funcion IBM cloud")
-    print("Opcion 8: Generar gráfico")
+    print("Opcion 8: Genera el gráfico que quieras")
+    print("Opción 9: Genera el gráfico de ejemplo de 'PAGAMENTS REALITZATS' per 'Alcaldia-Òrgans de govern-Dietes organs govern'")
     opcion = int(input())
     return opcion
 
@@ -44,25 +46,20 @@ def inicialitzar():
     print('Les dades pressupostaries de cada any es guarden en un fitxer csv\n')
 
 def getCsvData(values):
-    valorAConsultar= values["valorAConsultar"] #valor que volem analitzar graficament
-    columnaACercar = values["columnaACercar"]   #columna de la que volem buscar el id
-    idCerca = values["idCerca"]  #valor del csv del que volem extreure dades
-    files = "./PressupostDespesesAjReus"
-    index = 2019
-    anys = []
-    consultes = []
-    for i in range (3):
-        filePath = files + str(index) + ".csv"
-        df = pd.read_csv(filePath)
-        consulta = df[df[columnaACercar] ==  idCerca][valorAConsultar].iloc[0]
-        print(consulta)
-        consultes.append(consulta)
-        anys.append(index)
-        index+=1
-    result = {
-        "anys": anys,
-        "consultes": consultes
+    url = 'https://us-south.functions.cloud.ibm.com/api/v1/namespaces/victor.cano%40estudiants.urv.cat_dev/actions/plolt?blocking=true'
+    data = { 
+        "valorAConsultar": values["valorAConsultar"],
+        "columnaACercar": "DESCRIPCIÓ PARTIDA" , 
+        "idCerca": values["idCerca"]
     }
+    jsonData = json.dumps(data)
+    headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+    r = requests.post(url, data=jsonData, headers=headers, auth=HTTPBasicAuth('8aaf2c73-23b9-4c80-abf1-855bffabd931', '8jiLkY0XH3lWxRnKfnwyIW2xT9v7UJUrJRmtblBfwTUfr3jKLfR5CsoZn6KjLsxz'))
+    print("S'ha rebut la resposta de la funcio del cloud")
+    response = json.loads(r.text)
+    result = {}
+    result["anys"] = response["response"]["result"]["anys"]
+    result["consultes"] = response["response"]["result"]["consultes"]
     return result
     
 if __name__ == '__main__':
@@ -136,6 +133,24 @@ if __name__ == '__main__':
             print(response)
             print("\n")
         if opcion == 8:
+            print("Introdueix el nom de la columna a analitzar (per exemple 'PAGAMENTS REALITZATS')")
+            col = input()
+            print("Introdueix un valor de alguna fila de 'DESCRIPCIO PARTIDA' per a analitzar")
+            row = input()
+            values = { 
+                "valorAConsultar": col, #valor que volem analitzar graficament
+                "columnaACercar": "DESCRIPCIÓ PARTIDA" , #columna de la que volem buscar el id
+                "idCerca": row #valor del csv del que volem extreure dades
+            }
+            r = getCsvData(values)
+            plt.figure()
+            plt.plot(r["anys"], r["consultes"])
+            plt.xlabel(values["valorAConsultar"], fontsize=18)
+            plt.ylabel('Anys', fontsize=16)
+            plt.savefig("./images/" + col + "Reus.png")
+            print("Gràfic generat a ./images")
+            print()
+        if opcion == 9:
             values = { 
                 "valorAConsultar": "PAGAMENTS REALITZATS", #valor que volem analitzar graficament
                 "columnaACercar": "DESCRIPCIÓ PARTIDA" , #columna de la que volem buscar el id
@@ -147,4 +162,6 @@ if __name__ == '__main__':
             plt.xlabel(values["valorAConsultar"], fontsize=18)
             plt.ylabel('Anys', fontsize=16)
             plt.savefig("./images/DespesesReus.png")
+            print("Gràfic generat a ./images")
+            print()
         opcion = mostrarMenu()
