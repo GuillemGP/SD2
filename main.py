@@ -109,7 +109,7 @@ if __name__ == '__main__':
             plt.xlabel(values["valorAConsultar"], fontsize=18)
             plt.ylabel('Anys', fontsize=16)
             #plt.savefig("./images/DespesesReus.png")                          #Si es un windows usar este formato
-            lt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
+            plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
             print("Gràfic generat a ./images")
             print()
         

@@ -1,6 +1,8 @@
 import requests
 import json
 
+from requests.auth import HTTPBasicAuth
+
 def mostrarMenu():
     print("Quina opcio vols fer?")
     print("Opcio 0: Sortir")
@@ -10,8 +12,8 @@ def mostrarMenu():
     print("Opcio 4: Eliminar document del nuvol")
     print("Opcio 5: Afegir una nova dada a un document csv")
     print("Opcio 6: Mostra per pantalla el contingut d'un fitxer del nuvol")
-    print("Opcion 7: Genera el grafic que volguis")
-    print("Opción 8: Genera el grafic d'exemple de 'PAGAMENTS REALITZATS' per 'Alcaldia-Òrgans de govern-Dietes organs govern'")
+    print("Opcio 7: Genera el grafic que vulguis")
+    print("Opcio 8: Genera el grafic d'exemple de 'PAGAMENTS REALITZATS' per 'Alcaldia-Òrgans de govern-Dietes organs govern'")
     opcion = int(input())
     return opcion
 
