@@ -89,11 +89,10 @@ if __name__ == '__main__':
             r = funcions.getCsvData(values)
             plt.figure()
             plt.plot(r["anys"], r["consultes"])
-            plt.xlabel(values["valorAConsultar"], fontsize=18)
-            plt.ylabel('Anys', fontsize=16)
-            #plt.savefig("./images/" + col + "Reus.png")                       #Si es un windows usar este formato
-            plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
-            plt.savefig("./images/" + col + "Reus.png")
+            plt.xlabel('Anys', fontsize=18)
+            plt.ylabel(values["valorAConsultar"], fontsize=16)
+            plt.savefig("./images/" + col + "Reus.png")                       #Si es un windows usar este formato
+            #plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
             print("Gràfic generat a ./images")
             print()
 
@@ -106,10 +105,10 @@ if __name__ == '__main__':
             r = funcions.getCsvData(values)
             plt.figure()
             plt.plot(r["anys"], r["consultes"])
-            plt.xlabel(values["valorAConsultar"], fontsize=18)
-            plt.ylabel('Anys', fontsize=16)
-            #plt.savefig("./images/DespesesReus.png")                          #Si es un windows usar este formato
-            plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
+            plt.xlabel('Anys', fontsize=18)
+            plt.ylabel(values["valorAConsultar"], fontsize=16)
+            plt.savefig("./images/DespesesReus.png")                          #Si es un windows usar este formato
+            #plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
             print("Gràfic generat a ./images")
             print()
         
