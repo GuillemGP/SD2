@@ -1,13 +1,13 @@
 def mostrarMenu():
     print("Quina opcio vols fer?")
-    print("Opcion 0: Sortir")
-    print("Opcion 1: Llistar documents del nuvol")
-    print("Opcion 2: Crear un document al nuvol en blanc")
-    print("Opcion 3: Penjar un document al nuvol")
-    print("Opcion 4: Eliminar document del nuvol")
-    print("Opcion 5: Afegir una nova dada a un document csv")
-    print("Opcion 6: Generar grafic")
-    print("Opcion 7: Mostra per pantalla el contingut d'un fitxer del nuvol")
+    print("Opcio 0: Sortir")
+    print("Opcio 1: Llistar documents del nuvol")
+    print("Opcio 2: Crear un document al nuvol en blanc")
+    print("Opcio 3: Penjar un document al nuvol")
+    print("Opcio 4: Eliminar document del nuvol")
+    print("Opcio 5: Afegir una nova dada a un document csv")
+    print("Opcio 6: Generar grafic")
+    print("Opcio 7: Mostra per pantalla el contingut d'un fitxer del nuvol")
     opcion = int(input())
     return opcion
 
