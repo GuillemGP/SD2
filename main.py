@@ -7,41 +7,8 @@ import io
 import requests
 import json
 
-BUCKET = '2020sd'
-
-#IBM Cloud
-config = {'lithops' : {'storage_bucket' : BUCKET},
-
-          'ibm_cf':  {'endpoint': 'https://s3.eu-de.cloud-object-storage.appdomain.cloud',
-                      'namespace': 'guillem.gorgori@estudiants.urv.cat_dev',
-                      'api_key': 'hUKJ-4H0JyETfezS8XpZVEy8p6-BYhCsyPO8K8i_FVE9'},
-
-          'ibm_cos': {'region': 'eu-de',
-                      'api_key': 'hUKJ-4H0JyETfezS8XpZVEy8p6-BYhCsyPO8K8i_FVE9'}}
-
-def mostrarMenu():
-    print("Quina opcio vols fer?")
-    print("Opcion 0: Sortir")
-    print("Opcion 1: Llistar documents bucket")
-    print("Opcion 2: Crear un document al bucket en blanc")
-    print("Opcion 3: Penjar un document al bucket")
-    print("Opcion 4: Eliminar document csv al bucket")
-    print("Opcion 5: Afegir una nova dada a un document csv")
-    print("Opcion 6: Realitzar una consulta document")
-    print("Opcion 7: Invocar funcion IBM cloud")
-    print("Opcion 8: Generar gráfico")
-    opcion = int(input())
-    return opcion
-
-def llistarArxiusBucket():
-    print("\nLlista de fitxers guardats al bucket: ")
-    print(storage.list_keys(BUCKET))
-    print("\n")
-
-def inicialitzar():
-    print('\n\nPractica 2 SD\n')
-    print('Tractament de les dades pressupostaries de l\'ajuntament de Reus')
-    print('Les dades pressupostaries de cada any es guarden en un fitxer csv\n')
+import funcions
+import configIBMCloud
 
 def getCsvData(values):
     valorAConsultar= values["valorAConsultar"] #valor que volem analitzar graficament
@@ -66,33 +33,33 @@ def getCsvData(values):
     return result
     
 if __name__ == '__main__':
-    inicialitzar()
-    storage = Storage(config=config)
-    opcion = mostrarMenu()
+    funcions.inicialitzar()
+    storage = Storage(config=configIBMCloud.config)
+    opcion = funcions.mostrarMenu()
     while(opcion != 0):
         if opcion == 1: 
-            llistarArxiusBucket()
+            funcions.llistarArxiusBucket()
         
         if opcion == 2: 
             print("\nQuin nom vols que tingui el document nou al bucket? ")
             fitxer = input()
-            obj_id = storage.put_cloudobject('', BUCKET, fitxer)
+            obj_id = storage.put_cloudobject('', configIBMCloud.BUCKET, fitxer)
         
         if opcion == 3: 
             print("\nQuin document vols penjar? ")
             fitxer = input()
 
             f = open(fitxer, 'rb')
-            obj_id = storage.put_cloudobject(io.BytesIO(f.read()), BUCKET, fitxer)
+            obj_id = storage.put_cloudobject(io.BytesIO(f.read()), configIBMCloud.BUCKET, fitxer)
 
         if opcion == 4: 
-            llistarArxiusBucket()
+            funcions.llistarArxiusBucket()
             print("\nQuin document vols eliminar? ")
             fitxer = input()
-            storage.delete_object(BUCKET, fitxer)
+            storage.delete_object(configIBMCloud.BUCKET, fitxer)
 
         if opcion == 5: 
-            llistarArxiusBucket()
+            funcions.llistarArxiusBucket()
             print("\nA quin fitxer vols introduir noves dades? ")
             fitxer = input()
 
@@ -119,23 +86,14 @@ if __name__ == '__main__':
             print("Introudeix les obligacions:")
             info = info + ", " + input()
 
-            contingut=storage.get_object(bucket=BUCKET, key=fitxer)
+            contingut=storage.get_object(bucket=configIBMCloud.BUCKET, key=fitxer)
             contingut=contingut.decode()
 
             contingut = contingut + "\n" + info
 
-            obj_id = storage.put_cloudobject(contingut, BUCKET, fitxer)
-
-        if opcion == 6: 
-            print("\nDe quin any vols consultar les dades? ")
-            any = int(input())
-
-        if opcion == 7: 
-            response = json.loads(requests.get("https://eu-gb.functions.appdomain.cloud/api/v1/web/guillem.gorgori%40estudiants.urv.cat_dev/SD/hello.json").text)
-            print("\n")
-            print(response)
-            print("\n")
-        if opcion == 8:
+            obj_id = storage.put_cloudobject(contingut, configIBMCloud.BUCKET, fitxer)
+        
+        if opcion == 6:
             values = { 
                 "valorAConsultar": "PAGAMENTS REALITZATS", #valor que volem analitzar graficament
                 "columnaACercar": "DESCRIPCIÓ PARTIDA" , #columna de la que volem buscar el id
@@ -146,5 +104,16 @@ if __name__ == '__main__':
             plt.plot(r["anys"], r["consultes"])
             plt.xlabel(values["valorAConsultar"], fontsize=18)
             plt.ylabel('Anys', fontsize=16)
-            plt.savefig("./images/DespesesReus.png")
-        opcion = mostrarMenu()
+            plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png")
+
+            #plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
+        
+        if opcion == 7:
+            funcions.llistarArxiusBucket()
+            print("\nQuin fitxer vols mostrar per pantalla? ")
+            fitxer = input()
+            contingut=storage.get_object(bucket=configIBMCloud.BUCKET, key=fitxer)
+            contingut=contingut.decode()
+            print("\nContingut del fitxer:\n" + contingut + "\n")
+        
+        opcion = funcions.mostrarMenu()
