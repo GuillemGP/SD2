@@ -17,11 +17,6 @@ def mostrarMenu():
     opcion = int(input())
     return opcion
 
-def llistarArxiusBucket():
-    print("\nLlista de fitxers guardats al bucket: ")
-    print(storage.list_keys(BUCKET))
-    print("\n")
-
 def inicialitzar():
     print('\n\nPractica 2 SD\n')
     print('Tractament de les dades pressupostaries de l\'ajuntament de Reus')

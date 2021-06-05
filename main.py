@@ -6,6 +6,9 @@ import io
 
 import funcions
 import configIBMCloud
+
+#Name bucket
+BUCKET = '2020sd'
     
 if __name__ == '__main__':
     funcions.inicialitzar()
@@ -13,7 +16,9 @@ if __name__ == '__main__':
     opcion = funcions.mostrarMenu()
     while(opcion != 0):
         if opcion == 1: 
-            funcions.llistarArxiusBucket()
+            print("\nLlista de fitxers guardats al bucket: ")
+            print(storage.list_keys(BUCKET))
+            print("\n")
         
         if opcion == 2: 
             print("\nQuin nom vols que tingui el document nou al bucket? ")
@@ -28,13 +33,17 @@ if __name__ == '__main__':
             obj_id = storage.put_cloudobject(io.BytesIO(f.read()), configIBMCloud.BUCKET, fitxer)
 
         if opcion == 4: 
-            funcions.llistarArxiusBucket()
+            print("\nLlista de fitxers guardats al bucket: ")
+            print(storage.list_keys(BUCKET))
+            print("\n")
             print("\nQuin document vols eliminar? ")
             fitxer = input()
             storage.delete_object(configIBMCloud.BUCKET, fitxer)
 
         if opcion == 5: 
-            funcions.llistarArxiusBucket()
+            print("\nLlista de fitxers guardats al bucket: ")
+            print(storage.list_keys(BUCKET))
+            print("\n")
             print("\nA quin fitxer vols introduir noves dades? ")
             fitxer = input()
 
@@ -69,7 +78,9 @@ if __name__ == '__main__':
             obj_id = storage.put_cloudobject(contingut, configIBMCloud.BUCKET, fitxer)
         
         if opcion == 6:
-            funcions.llistarArxiusBucket()
+            print("\nLlista de fitxers guardats al bucket: ")
+            print(storage.list_keys(BUCKET))
+            print("\n")
             print("\nQuin fitxer vols mostrar per pantalla? ")
             fitxer = input()
             contingut=storage.get_object(bucket=configIBMCloud.BUCKET, key=fitxer)
@@ -91,8 +102,8 @@ if __name__ == '__main__':
             plt.plot(r["anys"], r["consultes"])
             plt.xlabel('Anys', fontsize=18)
             plt.ylabel(values["valorAConsultar"], fontsize=16)
-            plt.savefig("./images/" + col + "Reus.png")                       #Si es un windows usar este formato
-            #plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
+            #plt.savefig("./images/" + col + "Reus.png")                        #Si es un windows usar este formato
+            plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
             print("Gràfic generat a ./images")
             print()
 
@@ -107,8 +118,8 @@ if __name__ == '__main__':
             plt.plot(r["anys"], r["consultes"])
             plt.xlabel('Anys', fontsize=18)
             plt.ylabel(values["valorAConsultar"], fontsize=16)
-            plt.savefig("./images/DespesesReus.png")                          #Si es un windows usar este formato
-            #plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
+            #plt.savefig("./images/DespesesReus.png")                          #Si es un windows usar este formato
+            plt.savefig("/Users/guillemgorgoriperez/Desktop/DespesesReus.png") #Si es un macos usar este formato
             print("Gràfic generat a ./images")
             print()
         
