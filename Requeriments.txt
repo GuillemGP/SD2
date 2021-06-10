@@ -1,4 +1,0 @@
-Requeriments:
-
-Python v3.7 o superior
-lithops v2.3.3 o superior
