@@ -42,6 +42,7 @@ def map_tables(params):
         return params[4]
 
 if __name__ == '__main__':
+    #STAGE 2: DATA PROCESSING
     storage = Storage()
     evolucio_covid = storage.get_object('2021sdvictor', '1_evolucio_covid.csv')
     demografia = storage.get_object('2021sdvictor', '2_demografia.csv')
@@ -76,3 +77,5 @@ if __name__ == '__main__':
     fexec = lithops.FunctionExecutor()
     fexec.map(map_tables, iterdata)
     print(fexec.get_result())
+    
+    
