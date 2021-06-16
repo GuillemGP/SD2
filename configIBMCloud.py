@@ -1,17 +1,12 @@
 #Name bucket
 BUCKET = '2020sd'
 
-
 #IBM Cloud
 config = {'lithops' : {'storage_bucket' : BUCKET},
 
-          'ibm_cf':  {'endpoint': 'https://eu-de.functions.cloud.ibm.com',
+          'ibm_cf':  {'endpoint': 'https://s3.eu-de.cloud-object-storage.appdomain.cloud',
                       'namespace': 'guillem.gorgori@estudiants.urv.cat_dev',
-                      'api_key': '8473827c-1f14-4d61-9d02-16593ea15ed1:QHiEdcARKZeTsckGMJFZ75kfPuvmS9eZ7GEmIy5s3AkU6VVMMrWnSXFQYVE0kEEt'},
+                      'api_key': 'hUKJ-4H0JyETfezS8XpZVEy8p6-BYhCsyPO8K8i_FVE9'},
 
           'ibm_cos': {'region': 'eu-de',
-                      'api_key': '8473827c-1f14-4d61-9d02-16593ea15ed1:QHiEdcARKZeTsckGMJFZ75kfPuvmS9eZ7GEmIy5s3AkU6VVMMrWnSXFQYVE0kEEt'}}
-
-#Obtencio del credencials:
-#api_key
-#https://cloud.ibm.com/functions/namespace-settings
+                      'api_key': 'hUKJ-4H0JyETfezS8XpZVEy8p6-BYhCsyPO8K8i_FVE9'}}
