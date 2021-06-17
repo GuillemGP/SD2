@@ -3,7 +3,6 @@ import lithops
 from lithops import Storage
 import pandas as pd
 from io import StringIO
-import io
 
 import configIBMCloud
 
@@ -51,11 +50,16 @@ def map_tables(params):
             s=str(csv,'latin-1')
             data = StringIO(s) 
             df=pd.read_csv(data,header=0,delimiter=',')
-            g=df.groupby(['COMARCA','DATA'])['POSITIUS'].sum()
-            g.to_csv('positiusEntre15i64Anysv2.csv')
+            #df = pd.pivot_table(df, index=['COMARCA','DATA'],values=['POSITIUS'],aggfunc='sum')
+            #df.groupby('COMARCA','DATA')['POSITIUS'].sum()
+            #result = df.loc[df[params[2]] == params[3]]
+            result = result[["COMARCA","DATA","POSITIUS"]]
+            params[4]='positiusEntre15i64Anysv2'
 
-        f = open('positiusEntre15i64Anysv2.csv', 'rb')
-        obj_id = storage.put_cloudobject(io.BytesIO(f.read()), BUCKET, 'positiusEntre15i64Anysv2.csv')
+        result.to_csv('./' + params[4] + '.csv')
+        f = open(params[4] +".csv", "r")
+        text = f.read()
+        Storage.put_object(storage,BUCKET,params[4] + '.csv',text)
         return params[4]
 
 if __name__ == '__main__':
