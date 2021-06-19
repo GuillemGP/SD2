@@ -1,15 +1,15 @@
 lithops:
     storage: ibm_cos
-    storage_bucket: 2021sdvictor
+    storage_bucket: bucket
 
 serverless:
     backend: ibm_cf
    
 ibm_cf:
-    endpoint    : https://us-south.functions.cloud.ibm.com
-    namespace   : victor.cano@estudiants.urv.cat_dev
-    api_key     : 8aaf2c73-23b9-4c80-abf1-855bffabd931:8jiLkY0XH3lWxRnKfnwyIW2xT9v7UJUrJRmtblBfwTUfr3jKLfR5CsoZn6KjLsxz
+    endpoint    : endpoint
+    namespace   : namespace
+    api_key     : api_key
 
 ibm_cos:
-    region      : eu-de
-    api_key     : 2_KWx4jDE2l5_BgG1b7WqWDK4Vu0c9qIqq7Tegn66x3N
+    region      : region
+    api_key     : api_key
